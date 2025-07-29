@@ -43,7 +43,7 @@ void main() {
     });
 
     test('computeDryBaseline returns null when child has no baseline', () {
-      final RenderSizedBox child = RenderSizedBox(const Size(50.0, 50.0));
+      final MockRenderBoxNoBaseline child = MockRenderBoxNoBaseline();
       final RenderPadding padding = RenderPadding(
         padding: const EdgeInsets.all(10.0),
         child: child,
@@ -96,7 +96,7 @@ void main() {
 
 // Test implementation of RenderShiftedBox for testing the abstract class
 class TestRenderShiftedBox extends RenderShiftedBox {
-  TestRenderShiftedBox([RenderBox? child]) : super(child);
+  TestRenderShiftedBox([super.child]);
 
   @override
   Size computeDryLayout(BoxConstraints constraints) {
@@ -124,6 +124,24 @@ class MockRenderBox extends RenderBox {
   @override
   double? computeDryBaseline(BoxConstraints constraints, TextBaseline baseline) {
     return 40.0; // Mock baseline at 40 pixels from top
+  }
+
+  @override
+  void performLayout() {
+    size = constraints.constrain(const Size(50.0, 50.0));
+  }
+}
+
+// Mock render box that has no baseline for testing
+class MockRenderBoxNoBaseline extends RenderBox {
+  @override
+  Size computeDryLayout(BoxConstraints constraints) {
+    return constraints.constrain(const Size(50.0, 50.0));
+  }
+
+  @override
+  double? computeDryBaseline(BoxConstraints constraints, TextBaseline baseline) {
+    return null; // No baseline
   }
 
   @override

@@ -90,7 +90,7 @@ abstract class RenderShiftedBox extends RenderBox with RenderObjectWithChildMixi
     // but using dry layout. Need to account for the child's position within
     // the parent's coordinate space.
     final Offset childOffset = switch (this) {
-      RenderAligningShiftedBox aligningBox => aligningBox.resolvedAlignment.alongOffset(
+      final RenderAligningShiftedBox aligningBox => aligningBox.resolvedAlignment.alongOffset(
         size - childSize as Offset,
       ),
       _ => Offset.zero, // For other shifted box types, assume no offset
@@ -509,10 +509,11 @@ class RenderPositionedBox extends RenderAligningShiftedBox {
       final Paint paint;
       if (child != null && !child!.size.isEmpty) {
         final Path path;
-        paint = Paint()
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.0
-          ..color = const Color(0xFFFFFF00);
+        paint =
+            Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 1.0
+              ..color = const Color(0xFFFFFF00);
         path = Path();
         final BoxParentData childParentData = child!.parentData! as BoxParentData;
         if (childParentData.offset.dy > 0.0) {
